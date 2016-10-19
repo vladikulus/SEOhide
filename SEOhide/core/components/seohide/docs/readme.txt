@@ -1,10 +1,10 @@
 --------------------
 SEOhide
 --------------------
-Author: John Doe <john@doe.com>
+Author: Vladikulus <vladikulus@yandex.ru>
 --------------------
 
 A basic Extra for MODx Revolution.
 
 Feel free to suggest ideas/improvements/bugs on GitHub:
-http://github.com/username/SEOhide/issues
+http://github.com/vladikulus/SEOhide/issues
