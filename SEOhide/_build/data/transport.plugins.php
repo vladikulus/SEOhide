@@ -9,7 +9,8 @@ $tmp = array(
         'file' => 'seohide',
         'description' => '',
         'events' => array(
-            'OnWebPagePrerender' => array()
+            'OnWebPagePrerender' => array(),
+            'OnLoadWebDocument' => array()
         )
     )
 
