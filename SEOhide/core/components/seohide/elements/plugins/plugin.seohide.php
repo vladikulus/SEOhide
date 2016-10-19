@@ -53,4 +53,8 @@ switch ($modx->event->name) {
 
         $modx->resource->_output = $doc->saveHTML();
         break;
+    case "OnLoadWebDocument":
+        $modx->regClientScript('assets/components/seohide/js/web/lib/BASE64.js');
+        $modx->regClientScript('assets/components/seohide/js/web/default.js');
+        break;
 }
