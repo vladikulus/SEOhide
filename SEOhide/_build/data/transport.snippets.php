@@ -5,10 +5,10 @@
 $snippets = array();
 
 $tmp = array(
-    'SEOhide' => array(
+    /*'SEOhide' => array(
         'file' => 'seohide',
         'description' => '',
-    ),
+    ),*/
 );
 
 foreach ($tmp as $k => $v) {

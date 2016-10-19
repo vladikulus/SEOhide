@@ -5,14 +5,10 @@
 $chunks = array();
 
 $tmp = array(
-    'tpl.SEOhide.item' => array(
+    /*'tpl.SEOhide.item' => array(
         'file' => 'item',
         'description' => '',
-    ),
-    'tpl.SEOhide.office' => array(
-        'file' => 'office',
-        'description' => '',
-    ),
+    ),*/
 );
 
 // Save chunks for setup options

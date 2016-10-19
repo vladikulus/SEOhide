@@ -242,9 +242,9 @@ $vehicle->resolve('file', array(
 
 /** @var array $BUILD_RESOLVERS */
 if (!in_array('office', $BUILD_RESOLVERS)) {
-    rrmdir($sources['source_assets'] . '/js/office');
-    rrmdir($sources['source_core'] . '/controllers/office');
-    rrmdir($sources['source_core'] . '/processors/office');
+    //rrmdir($sources['source_assets'] . '/js/office');
+    //rrmdir($sources['source_core'] . '/controllers/office');
+    //rrmdir($sources['source_core'] . '/processors/office');
 }
 foreach ($BUILD_RESOLVERS as $resolver) {
     if ($vehicle->resolve('php', array('source' => $sources['resolvers'] . 'resolve.' . $resolver . '.php'))) {

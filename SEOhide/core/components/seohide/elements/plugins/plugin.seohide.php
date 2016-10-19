@@ -5,6 +5,7 @@ switch ($modx->event->name) {
 
         $modx->addPackage('seohide', $modx->getOption('core_path').'components/seohide/model/');
         $query = $modx->newQuery('SEOhideItem');
+        $query->where(["active" => "1"]);
         $query->innerJoin('modResource', 'resource', 'resource.id = SEOhideItem.resource_id');
         $query->select(array(
             'resource.alias',
