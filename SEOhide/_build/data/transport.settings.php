@@ -11,6 +11,11 @@ $tmp = array(/*
         'area' => 'seohide_main',
     ),
     */
+    'disabled_pages' => array(
+        'xtype' => 'textfield',
+        'value' => '1',
+        'area' => 'seohide_main',
+    ),
 );
 
 foreach ($tmp as $k => $v) {

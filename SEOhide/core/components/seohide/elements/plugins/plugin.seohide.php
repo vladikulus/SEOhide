@@ -3,6 +3,14 @@
 switch ($modx->event->name) {
     case "OnWebPagePrerender":
 
+        if($disabled_pages = $modx->getOption('seohide_disabled_pages')){
+            $disabled_pagesArray = explode(",", $disabled_pages);
+            if(in_array($modx->resource->id, $disabled_pagesArray)) {
+                break;
+            }
+        }
+
+
         $modx->addPackage('seohide', $modx->getOption('core_path').'components/seohide/model/');
         $query = $modx->newQuery('SEOhideItem');
         $query->where(["active" => "1"]);
@@ -32,7 +40,6 @@ switch ($modx->event->name) {
             }
 
         }
-        $modx->log(1, print_r($aliasArray, 1));
         /**/
 
         $doc = new DOMDocument();
