@@ -25,13 +25,13 @@ switch ($modx->event->name) {
 
         foreach($aliasArray as $key => $aliasArrayRow){
             if($aliasArrayRow["isfolder"] == 0){
-                $aliasArray[$key] = $aliasArrayRow["alias"] . "/";
-            } else {
                 $aliasArray[$key] = $aliasArrayRow["alias"] . $file_extensions;
+            } else {
+                $aliasArray[$key] = $aliasArrayRow["alias"] . "/";
             }
 
         }
-
+        $modx->log(1, print_r($aliasArray, 1));
         /**/
 
         $doc = new DOMDocument();
