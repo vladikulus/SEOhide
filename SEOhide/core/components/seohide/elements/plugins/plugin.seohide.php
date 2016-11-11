@@ -9,10 +9,9 @@ switch ($modx->event->name) {
             }
         }
 
-
         $modx->addPackage('seohide', $modx->getOption('core_path').'components/seohide/model/');
         $query = $modx->newQuery('SEOhideItem');
-        $query->where(["active" => "1"]);
+        $query->where(array("active" => "1"));
         $query->innerJoin('modResource', 'resource', 'resource.id = SEOhideItem.resource_id');
         $query->select(array(
             'resource.alias',
@@ -28,7 +27,7 @@ switch ($modx->event->name) {
             break;
         }
 
-        if(!$contentTypeObj = $modx->getObject("modContentType", ["name" => "HTML"])){break;}
+        if(!$contentTypeObj = $modx->getObject("modContentType", array("name" => "HTML"))){break;}
         $file_extensions = $contentTypeObj->get("file_extensions");
 
         foreach($aliasArray as $key => $aliasArrayRow){
@@ -49,7 +48,7 @@ switch ($modx->event->name) {
         @$doc->loadHTML($source);
         $links = $doc->getElementsByTagName('a');
 
-        $linksArray = [];
+        $linksArray = array();
         foreach ($links as $link) {
 
             if(in_array($link->getAttribute('href'), $aliasArray)){
@@ -60,6 +59,13 @@ switch ($modx->event->name) {
                 $hashLink->setAttribute('hashstring', $hashstring);
                 $hashLink->setAttribute('hashtype', 'href');
                 $hashLink->setAttribute('href', '#');
+
+                if ($link->hasAttributes()) {
+                    foreach ($link->attributes as $attr) {
+                        $hashLink->setAttribute($attr->nodeName, $attr->nodeValue);
+                    }
+                }
+
                 $link->parentNode->replaceChild($hashLink, $link);
 
                 $linksArray[$hashstring] = $hashHref;
@@ -97,3 +103,4 @@ switch ($modx->event->name) {
             }
         }
 }
+return;

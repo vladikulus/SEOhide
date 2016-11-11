@@ -21,6 +21,7 @@ if (!function_exists('installPackage')) {
 
         if (!empty($response)) {
             $foundPackages = simplexml_load_string($response->response);
+
             foreach ($foundPackages as $foundPackage) {
                 /** @var modTransportPackage $foundPackage */
                 /** @noinspection PhpUndefinedFieldInspection */
@@ -81,6 +82,7 @@ if (!function_exists('installPackage')) {
                     break;
                 }
             }
+
         } else {
             return array(
                 'success' => 0,
@@ -124,7 +126,7 @@ if (!function_exists('downloadPackage')) {
 }
 
 $packages = array(
-    'pdoTools' => '2.5.0-pl',
+    /*'pdoTools' => '2.5.0-pl',*/
 );
 $success = false;
 
