@@ -9,14 +9,12 @@ switch ($modx->event->name) {
             }
         }
 
-
         $modx->addPackage('seohide', $modx->getOption('core_path').'components/seohide/model/');
         $query = $modx->newQuery('SEOhideItem');
         $query->where(["active" => "1"]);
         $query->innerJoin('modResource', 'resource', 'resource.id = SEOhideItem.resource_id');
         $query->select(array(
-            'resource.alias',
-            'resource.isfolder'
+            'resource.uri'
         ));
         $query->where(array(
             'SEOhideItem.active:!=' => 0
@@ -24,21 +22,18 @@ switch ($modx->event->name) {
         $query->prepare();
         $query->stmt->execute();
         $aliasArray = $query->stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        $convertedAliasArray = array();
         if(!count($aliasArray)){
             break;
+        } else {
+            foreach($aliasArray as $a){
+                $convertedAliasArray[] = $a["uri"];
+            }
         }
 
         if(!$contentTypeObj = $modx->getObject("modContentType", ["name" => "HTML"])){break;}
         $file_extensions = $contentTypeObj->get("file_extensions");
-
-        foreach($aliasArray as $key => $aliasArrayRow){
-            if($aliasArrayRow["isfolder"] == 0){
-                $aliasArray[$key] = $aliasArrayRow["alias"] . $file_extensions;
-            } else {
-                $aliasArray[$key] = $aliasArrayRow["alias"] . "/";
-            }
-
-        }
         /**/
 
         $doc = new DOMDocument();
@@ -50,16 +45,18 @@ switch ($modx->event->name) {
         $links = $doc->getElementsByTagName('a');
 
         $linksArray = [];
+        $modx->log(1, print_r($aliasArray, 1));
         foreach ($links as $link) {
+            $modx->log(1, print_r($link->getAttribute('href'), 1));
 
-            if(in_array($link->getAttribute('href'), $aliasArray)){
+            if(in_array($link->getAttribute('href'), $convertedAliasArray)){
                 $hashLink = $doc->createElement("a", $link->nodeValue);
 
                 $hashHref = base64_encode($link->getAttribute('href'));
                 $hashstring = base64_encode($hashHref);
                 $hashLink->setAttribute('hashstring', $hashstring);
                 $hashLink->setAttribute('hashtype', 'href');
-                $hashLink->setAttribute('href', '#');
+                $hashLink->setAttribute('href', '');
                 $link->parentNode->replaceChild($hashLink, $link);
 
                 $linksArray[$hashstring] = $hashHref;
@@ -82,10 +79,13 @@ switch ($modx->event->name) {
 
         if(!$charset){
             $head = $doc->getElementsByTagName('head')->item(0);
-            $meta = $doc->createElement("meta", "");
-            $meta->setAttribute('http-equiv', 'Content-Type');
-            $meta->setAttribute('content', 'text/html; charset=utf-8');
-            $head->appendChild($meta);
+            if($head){
+                $meta = $doc->createElement("meta", "");
+                $meta->setAttribute('http-equiv', 'Content-Type');
+                $meta->setAttribute('content', 'text/html; charset=utf-8');
+                $head->appendChild($meta);
+            }
+
         }
 
         $modx->resource->_output = $doc->saveHTML();
